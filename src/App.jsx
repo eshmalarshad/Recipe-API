@@ -9,7 +9,7 @@ function App() {
     try {
       setLoading(true);
 
-      const res = await axios.get("http://localhost:5000/api/recipes");
+      const res = await axios.get("https://recipe-api-production-36b0.up.railway.app/api/recipes");
       setRecipes(res.data);
 
     } catch (error) {
