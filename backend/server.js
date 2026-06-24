@@ -9,17 +9,28 @@ dotenv.config();
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
 // Routes
 app.use("/api/recipes", recipeRoutes);
 
-// MongoDB connect
+
+const PORT = process.env.PORT || 5000;
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.log("MongoDB Connection Error:", err);
+  });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Health check route (VERY IMPORTANT for deployment)
+app.get("/", (req, res) => {
+  res.send("API is running ");
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
